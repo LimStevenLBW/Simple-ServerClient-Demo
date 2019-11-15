@@ -5,47 +5,40 @@ public class Server
 {
     public static void main(String[]args)
     {
-        //DatagramSocket aSocket = null;
-        //String serverName = args[0];
-        String serverPortString = args[0];
-        int serverPort = Integer.parseInt(serverPortString);
+        String serverPortString = args[0]; //getting the server port number from the CL arguments as string
+        int serverPort = Integer.parseInt(serverPortString); //set the server port # from the CL and parse as integer
         
         try
         {
+            //Create an object aSocket of instance class DatagramSocket
             DatagramSocket aSocket = new DatagramSocket(serverPort);
 
+            //Creating a byte array called buffer to store the message from the client
             byte [] buffer = new byte[1000];
             
             while(true)
             {
-        
-                buffer = new byte[1000];
+
+                buffer = new byte[1000];    
                 
+                //Create an object called "request" of instance type DatagramPacket
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 
                 System.out.println("Waiting for the message from the client...");
 
+                //Use the receive method from the DatagramSocket class to get the request packet
                 aSocket.receive(request);
 
-                String messageFromClient = new String(request.getData());
-
-                InetAddress clientAddress = request.getAddress();
-
-                int clientPort = request.getPort();
-
                 System.out.println("Message from client has been received");
-                System.out.println("Client name: " + clientAddress + " at port: " + clientPort);
-                System.out.println("Message from client: " + messageFromClient);
 
                 System.out.println("Creating echo response...");
 
-                String echoResponse = new String("Echo reponse from server: We received your message");
                 System.out.println();
 
-                byte [] echoReponseAsBytes = echoResponse.getBytes();
+                //Create an object reply of instance type DatagramPacket - this is our reply packet
+                DatagramPacket reply = new DatagramPacket(request.getData(), request.getLength(), request.getAddress(), request.getPort());
 
-                DatagramPacket reply = new DatagramPacket(echoReponseAsBytes, echoReponseAsBytes.length, clientAddress, clientPort);
-
+                //Using the send method from the DatagramSocket class we send the reply packet back to the client
                 aSocket.send(reply);
             }
         }catch(SocketException e)

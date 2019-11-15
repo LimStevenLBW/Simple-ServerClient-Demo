@@ -30,8 +30,6 @@ public class Client
             //Creating an array of bytes from our message which is converted to bytes
             byte [] message  = messageToSend.getBytes();
 
-            System.out.println("Sending message of " + message.length + " bytes to the server.");
-
             //Creating object request of instance class DatagramPacket to send our data to the server
             DatagramPacket request = new DatagramPacket(message, message.length, aHost, serverPort);
 
@@ -45,27 +43,29 @@ public class Client
             DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
 
             System.out.println("Waiting for the echo response message from the server");
-            aSocket.setSoTimeout(10000);
+            aSocket.setSoTimeout(10000); //Timeout the socket if no response
 
             try
             {
-                //Using the receive method from the DatagramPacket class to receive our echo message from the server
+                //Using the receive method from the Datagramver
                 aSocket.receive(reply);
 
-                //String variable to hold the echo message from the server
+                //Getting the ehco from the server from the reply object using the getData() method
                 String echoFromServer = new String(reply.getData());
 
-                //Creating serverName object of instance type InetAddress 
+                //Getting the server address from the reply object using the getAddress() method
                 InetAddress serverName = reply.getAddress();
 
-                //Creating port variable and using the getPort method from the DatagramPacket class to get the port number
+                //Getting the server port number from the reply object using the getPort() method
                 int port = reply.getPort();
 
+                //Displaying the echo response from the server
                 System.out.println("Echo response from the server at " + serverName + " at port: " + port);
                 System.out.println(echoFromServer);
+
             }catch(SocketTimeoutException e)
             {
-                System.out.println("Timeout occurred: Packet lost");
+                System.out.println("Socket: " + e.getMessage());
             }
 
             aSocket.close();

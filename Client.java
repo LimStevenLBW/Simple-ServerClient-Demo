@@ -44,7 +44,7 @@ public class Client
             //Creating object reply of instance class DatagramPacket to recevie a response from the server
             DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
 
-            System.out.println("Waiting from the echo response message from the server");
+            System.out.println("Waiting for the echo response message from the server");
             aSocket.setSoTimeout(10000);
 
             try
@@ -62,7 +62,7 @@ public class Client
                 int port = reply.getPort();
 
                 System.out.println("Echo response from the server at " + serverName + " at port: " + port);
-                System.out.println("Echo response: " + echoFromServer);
+                System.out.println(echoFromServer);
             }catch(SocketTimeoutException e)
             {
                 System.out.println("Timeout occurred: Packet lost");

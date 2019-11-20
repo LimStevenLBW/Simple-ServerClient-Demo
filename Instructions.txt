@@ -1,0 +1,8 @@
+HOW TO RUN THIS PROGRAM
+1. compile Client.java -> "javac Client.java"
+2. compile Server.java -> "javac Server.java"
+3. run Client.java, specifying the client address and the port # on the CL -> "java Client localhost 3000"
+4. run Server.java, specifying the server port # on the CL -> "java Server 3000"
+
+NOTE: The port number for the Client and Server need to be the same or else the client will not be able to send the packet
+to the Server
